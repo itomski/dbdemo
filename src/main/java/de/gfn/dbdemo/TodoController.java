@@ -22,7 +22,7 @@ public class TodoController implements Initializable {
         Todo todo = new Todo();
         todo.setName(eingabe.getText()); // Todo aus der Eingabe erzeugen
         TodoRepository.insert(todo); // Todo speichern
-        updateAusgabe();
+        updateAusgabe(); // Ausgabe updaten
         eingabe.clear(); // Textfeld leeren
     }
 

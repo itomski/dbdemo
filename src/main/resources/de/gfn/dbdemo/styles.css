@@ -1,0 +1,16 @@
+.bg {
+    -fx-background-color: #333333;
+}
+
+.input-bg {
+    -fx-background-radius: 0;
+    -fx-background-color: #CCCCCC;
+}
+
+.button-bg {
+    -fx-background-radius: 0;
+}
+
+.button-selected {
+    -fx-background-color: #FF0000;
+}

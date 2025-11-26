@@ -7,7 +7,7 @@ import java.util.List;
 public class TodoRepository {
 
     public static boolean update(Todo todo) throws SQLException {
-        final String SQL = "UPDATE todos SET name = ? WHERE id = " + todo.getId(); // SQL-Anweisung
+        final String SQL = "UPDATE todos SET name = ?, done = ? WHERE id = " + todo.getId(); // SQL-Anweisung
         return prepareSql(SQL, todo) > 0;
     }
 
@@ -21,7 +21,7 @@ public class TodoRepository {
     }
 
     public static boolean insert(Todo todo) throws SQLException {
-        final String SQL = "INSERT INTO todos (name) VALUES(?)"; // SQL-Anweisung
+        final String SQL = "INSERT INTO todos (name, done) VALUES(?, ?)"; // SQL-Anweisung
         return prepareSql(SQL, todo) > 0;
     }
 
@@ -39,6 +39,7 @@ public class TodoRepository {
         try(Connection conn = DatabaseUtils.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(SQL);
             stmt.setString(1, todo.getName());
+            stmt.setBoolean(2, todo.isDone());
             stmt.execute();
             return stmt.getUpdateCount();
         }
@@ -71,12 +72,13 @@ public class TodoRepository {
         Todo todo = new Todo();
         todo.setId(row.getInt("id"));
         todo.setName(row.getString("name"));
+        todo.setDone(row.getInt("done") == 1);
         return todo;
     }
 
     public static void createTable() throws SQLException {
         final String SQL = "CREATE TABLE IF NOT EXISTS todos " +
-                " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"; // SQL-Anweisung
+                " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, done INTEGER NOT NULL)"; // SQL-Anweisung
 
         executeSql(SQL);
     }
